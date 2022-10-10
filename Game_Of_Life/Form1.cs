@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Game_Of_Life.Properties;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -222,6 +224,18 @@ namespace Game_Of_Life
             graphicsPanel1.Invalidate();
         }
 
+        private FileInfo LoadJson()
+        {
+            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+            while (directory.Name != "Game_Of_Life")
+            {
+                directory = directory.Parent;
+            }
+
+            directory = directory.GetDirectories("Resources")[0];
+            
+            return directory.GetFiles("templates.json")[0];
+        }
 
 
 
@@ -281,6 +295,12 @@ namespace Game_Of_Life
                 }
             }
             graphicsPanel1.Invalidate();
+        }
+
+        private void loadToolStripButton_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
+            LoadJson();
         }
     }
 }
