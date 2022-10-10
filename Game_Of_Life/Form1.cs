@@ -24,6 +24,9 @@ namespace Game_Of_Life
         // The clipboard array
         bool[,] clipboard = new bool[20, 20];
 
+        // The templates dictionary
+        Dictionary<int, bool[,]> templates = new Dictionary<int, bool[,]>();
+
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
