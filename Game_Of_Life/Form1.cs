@@ -267,6 +267,13 @@ namespace Game_Of_Life
             else return;
         }
 
+        private bool[,] GetTemplate(string name)
+        {
+            if (templates.TryGetValue(name, out var ret)) { return ret; }
+            else { return null; }
+                   
+        }
+
         private void DeleteTemplate(string name)
         {
             templates.Remove(name);
@@ -361,6 +368,27 @@ namespace Game_Of_Life
         private void modalApply(Object sender, ApplyEventArgs e)
         {
             string templateName = e.name;
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TemplateIOModal modal = new TemplateIOModal();
+            modal.Apply += new ApplyEventHandler(modalApply);
+            if (DialogResult.OK == modal.ShowDialog())
+            {
+                bool[,] ret = GetTemplate(modal.templateName);
+                // Iterate through the universe in the y, top to bottom
+                for (int y = 0; y < scratchPad.GetLength(1); y++)
+                {
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < scratchPad.GetLength(0); x++)
+                    {
+                        universe[x, y] = ret[x, y];
+                        scratchPad[x, y] = ret[x, y];
+                    }
+                }
+                graphicsPanel1.Invalidate();
+            }
         }
     }
 }
