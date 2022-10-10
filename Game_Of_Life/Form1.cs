@@ -96,9 +96,9 @@ namespace Game_Of_Life
         {
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+            float cellWidth = ((float)graphicsPanel1.ClientSize.Width / universe.GetLength(0)) - 0.3f;
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+            float cellHeight = ((float)graphicsPanel1.ClientSize.Height / universe.GetLength(1)) - 0.3f;
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
@@ -113,9 +113,9 @@ namespace Game_Of_Life
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     // A rectangle to represent each cell in pixels
-                    Rectangle cellRect = Rectangle.Empty;
-                    cellRect.X = x * cellWidth;
-                    cellRect.Y = y * cellHeight;
+                    RectangleF cellRect = Rectangle.Empty;
+                    cellRect.X = (x * cellWidth) + 0.8f;
+                    cellRect.Y = (y * cellHeight) + 0.8f;
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
