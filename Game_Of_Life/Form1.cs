@@ -121,8 +121,8 @@ namespace Game_Of_Life
                 {
                     // A rectangle to represent each cell in pixels
                     RectangleF cellRect = Rectangle.Empty;
-                    cellRect.X = (x * cellWidth) + 0.8f;
-                    cellRect.Y = (y * cellHeight) + 0.8f;
+                    cellRect.X = (x * cellWidth);
+                    cellRect.Y = (y * cellHeight);
                     cellRect.Width = cellWidth;
                     cellRect.Height = cellHeight;
 
@@ -148,17 +148,17 @@ namespace Game_Of_Life
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+                float cellWidth = (graphicsPanel1.ClientSize.Width / universe.GetLength(0)) - 0.3f;
+                float cellHeight = (graphicsPanel1.ClientSize.Height / universe.GetLength(1)) + 0.5f;
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
-                int x = e.X / cellWidth;
+                float x = e.X / cellWidth;
                 // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = e.Y / cellHeight;
+                float y = e.Y / cellHeight;
 
                 // Toggle the cell's state
-                universe[x, y] = !universe[x, y];
+                universe[(int)x, (int)y] = !universe[(int)x, (int)y];
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
