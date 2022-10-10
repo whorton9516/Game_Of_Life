@@ -1,4 +1,5 @@
 ﻿using Game_Of_Life.Properties;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -223,21 +224,34 @@ namespace Game_Of_Life
             Array.Clear(wasAlive, 0, wasAlive.Length);
             graphicsPanel1.Invalidate();
         }
-
-        private FileInfo LoadJson()
+        
+        private string GetJsonFilepath()
         {
-            var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-            while (directory.Name != "Game_Of_Life")
+            try
             {
-                directory = directory.Parent;
-            }
+                var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
+                while (directory.Name != "Game_Of_Life")
+                {
+                    directory = directory.Parent;
+                }
 
-            directory = directory.GetDirectories("Resources")[0];
-            
-            return directory.GetFiles("templates.json")[0];
+                directory = directory.GetDirectories("Resources")[0];
+
+                return directory.GetFiles("templates.json")[0].FullName;
+            }
+            catch (Exception e)
+            {
+                return String.Empty;
+            }
         }
 
-
+        private void SaveTemplate(bool[,] universe)
+        {
+            bool[,] template = universe;
+            
+            string newTemplate = JsonConvert.
+        }
+        
 
 
         // UI Methods
@@ -300,7 +314,7 @@ namespace Game_Of_Life
         private void loadToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Stop();
-            LoadJson();
+            GetJsonFilepath();
         }
     }
 }
