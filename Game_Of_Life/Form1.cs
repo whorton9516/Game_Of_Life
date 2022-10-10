@@ -14,6 +14,8 @@ namespace Game_Of_Life
     {
         // The universe array
         bool[,] universe = new bool[20, 20];
+
+        // The Scratch Pad Array
         bool[,] scratchPad = new bool[20, 20];
         // Drawing colors
         Color gridColor = Color.Black;
