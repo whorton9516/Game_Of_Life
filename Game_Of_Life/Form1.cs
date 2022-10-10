@@ -260,7 +260,11 @@ namespace Game_Of_Life
         {
             templates.Clear();
             string templateString = File.ReadAllText(GetJsonFilepath());
-            templates = JsonConvert.DeserializeObject<Dictionary<string, bool[,]>>(templateString);
+            if (templateString != null)
+            {
+                templates = JsonConvert.DeserializeObject<Dictionary<string, bool[,]>>(templateString);
+            }
+            else return;
         }
 
         private void DeleteTemplate(string name)
@@ -342,6 +346,21 @@ namespace Game_Of_Life
         private void Form1_Load(object sender, EventArgs e)
         {
             LoadTemplatesToDictionary();
+        }
+
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            TemplateIOModal modal = new TemplateIOModal();
+            modal.Apply += new ApplyEventHandler(modalApply);
+            if(DialogResult.OK == modal.ShowDialog())
+            {
+                SaveTemplate(modal.templateName, universe);
+            }
+        }
+
+        private void modalApply(Object sender, ApplyEventArgs e)
+        {
+            string templateName = e.name;
         }
     }
 }
