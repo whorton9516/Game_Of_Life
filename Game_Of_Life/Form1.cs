@@ -17,6 +17,7 @@ namespace Game_Of_Life
 
         // The Scratch Pad Array
         bool[,] scratchPad = new bool[20, 20];
+
         // Drawing colors
         Color gridColor = Color.Black;
         Color cellColor = Color.Gray;
@@ -191,6 +192,16 @@ namespace Game_Of_Life
             return count;
         }
 
+        /* Written in the wrong branch, uncomment when ready
+        private void ResetGrid()
+        {
+            Array.Clear(universe, 0, universe.Length);
+            Array.Clear(scratchPad, 0, scratchPad.Length);
+        }
+        */
+
+
+        // UI Methods
         private void startToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Start();
