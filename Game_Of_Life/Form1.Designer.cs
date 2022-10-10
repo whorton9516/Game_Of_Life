@@ -49,7 +49,7 @@
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.startToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.pauseToolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.stopToolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.stepToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.newToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openToolStripButton = new System.Windows.Forms.ToolStripButton();
@@ -213,7 +213,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripButton,
             this.pauseToolStripButton,
-            this.stopToolStripButton,
+            this.stepToolStripButton,
             this.toolStripSeparator3,
             this.newToolStripButton,
             this.openToolStripButton,
@@ -248,14 +248,15 @@
             this.pauseToolStripButton.Text = "&Pause";
             this.pauseToolStripButton.Click += new System.EventHandler(this.pauseToolStripButton_Click);
             // 
-            // stopToolStripButton
+            // stepToolStripButton
             // 
-            this.stopToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.stopToolStripButton.Image = ((System.Drawing.Image)(resources.GetObject("stopToolStripButton.Image")));
-            this.stopToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.stopToolStripButton.Name = "stopToolStripButton";
-            this.stopToolStripButton.Size = new System.Drawing.Size(23, 22);
-            this.stopToolStripButton.Text = "&Stop";
+            this.stepToolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.stepToolStripButton.Image = global::Game_Of_Life.Properties.Resources.StepForward;
+            this.stepToolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.stepToolStripButton.Name = "stepToolStripButton";
+            this.stepToolStripButton.Size = new System.Drawing.Size(23, 22);
+            this.stepToolStripButton.Text = "&Step";
+            this.stepToolStripButton.Click += new System.EventHandler(this.stepToolStripButton_Click);
             // 
             // toolStripSeparator3
             // 
@@ -302,6 +303,7 @@
             this.cutToolStripButton.Name = "cutToolStripButton";
             this.cutToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.cutToolStripButton.Text = "C&ut";
+            this.cutToolStripButton.Click += new System.EventHandler(this.cutToolStripButton_Click);
             // 
             // copyToolStripButton
             // 
@@ -311,6 +313,7 @@
             this.copyToolStripButton.Name = "copyToolStripButton";
             this.copyToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.copyToolStripButton.Text = "&Copy";
+            this.copyToolStripButton.Click += new System.EventHandler(this.copyToolStripButton_Click);
             // 
             // pasteToolStripButton
             // 
@@ -320,6 +323,7 @@
             this.pasteToolStripButton.Name = "pasteToolStripButton";
             this.pasteToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.pasteToolStripButton.Text = "&Paste";
+            this.pasteToolStripButton.Click += new System.EventHandler(this.pasteToolStripButton_Click);
             // 
             // statusStrip1
             // 
@@ -408,7 +412,7 @@
         private System.Windows.Forms.ToolStripButton startToolStripButton;
         private System.Windows.Forms.ToolStripButton pauseToolStripButton;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
-        private System.Windows.Forms.ToolStripButton stopToolStripButton;
+        private System.Windows.Forms.ToolStripButton stepToolStripButton;
         private System.Windows.Forms.ToolStripMenuItem settingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;

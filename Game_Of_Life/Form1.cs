@@ -201,28 +201,12 @@ namespace Game_Of_Life
         private void NewGrid()
         {
             timer.Stop();
-            // Iterate through the universe in the y, top to bottom
-            for (int y = 0; y < universe.GetLength(1); y++)
-            {
-                // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = false;
-                    scratchPad[x, y] = false;
-                    wasAlive[x, y] = false;
-                }
-            }
-            graphicsPanel1.Invalidate();
-        }
-
-        private void ResetGrid()
-        {
-            timer.Stop();
             Array.Clear(universe, 0, universe.Length);
             Array.Clear(scratchPad, 0, scratchPad.Length);
             Array.Clear(wasAlive, 0, wasAlive.Length);
-            NewGrid();
+            graphicsPanel1.Invalidate();
         }
+
 
 
 
@@ -236,6 +220,52 @@ namespace Game_Of_Life
         private void pauseToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Stop();
+        }
+
+        private void stepToolStripButton_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
+            NextGeneration();
+        }
+
+        private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+            timer.Stop();
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    clipboard[x, y] = universe[x, y];
+                }
+            }
+
+            NewGrid();
+        }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    clipboard[x, y] = universe[x, y];
+                }
+            }
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = clipboard[x, y];
+                }
+            }
+            graphicsPanel1.Invalidate();
         }
     }
 }
