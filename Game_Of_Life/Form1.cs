@@ -28,7 +28,7 @@ namespace Game_Of_Life
         bool[,] clipboard = new bool[20, 20];
 
         // The templates dictionary
-        Dictionary<int, bool[,]> templates = new Dictionary<int, bool[,]>();
+        Dictionary<string, bool[,]> templates = new Dictionary<string, bool[,]>();
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -245,13 +245,30 @@ namespace Game_Of_Life
             }
         }
 
-        private void SaveTemplate(bool[,] universe)
+        private void SaveTemplate(string name, bool[,] universe)
         {
-            bool[,] template = universe;
-            
-            string newTemplate = JsonConvert.
+            templates.Add(name, universe);
+        }
+
+        private void SaveJson()
+        {
+            string templateString = JsonConvert.SerializeObject(templates);
+            File.WriteAllText(GetJsonFilepath(), templateString);
+        }
+
+        private void LoadTemplatesToDictionary()
+        {
+            templates.Clear();
+            string templateString = File.ReadAllText(GetJsonFilepath());
+            templates = JsonConvert.DeserializeObject<Dictionary<string, bool[,]>>(templateString);
+        }
+
+        private void DeleteTemplate(string name)
+        {
+            templates.Remove(name);
         }
         
+
 
 
         // UI Methods
@@ -315,6 +332,16 @@ namespace Game_Of_Life
         {
             timer.Stop();
             GetJsonFilepath();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            SaveJson();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadTemplatesToDictionary();
         }
     }
 }
