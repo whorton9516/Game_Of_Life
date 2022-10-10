@@ -15,8 +15,14 @@ namespace Game_Of_Life
         // The universe array
         bool[,] universe = new bool[20, 20];
 
-        // The Scratch Pad Array
+        // The scratchPad array
         bool[,] scratchPad = new bool[20, 20];
+
+        // The wasAlive array
+        bool[,] wasAlive = new bool[20, 20];
+
+        // The clipboard array
+        bool[,] clipboard = new bool[20, 20];
 
         // Drawing colors
         Color gridColor = Color.Black;
@@ -192,13 +198,33 @@ namespace Game_Of_Life
             return count;
         }
 
-        /* Written in the wrong branch, uncomment when ready
+        private void NewGrid()
+        {
+            timer.Stop();
+            // Iterate through the universe in the y, top to bottom
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    universe[x, y] = false;
+                    scratchPad[x, y] = false;
+                    wasAlive[x, y] = false;
+                }
+            }
+            graphicsPanel1.Invalidate();
+        }
+
         private void ResetGrid()
         {
+            timer.Stop();
             Array.Clear(universe, 0, universe.Length);
             Array.Clear(scratchPad, 0, scratchPad.Length);
+            Array.Clear(wasAlive, 0, wasAlive.Length);
+            NewGrid();
         }
-        */
+
+
 
 
         // UI Methods
