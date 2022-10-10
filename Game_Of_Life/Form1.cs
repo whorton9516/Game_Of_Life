@@ -64,7 +64,11 @@ namespace Game_Of_Life
                      */
                     if (universe[x,y] == false)
                     {
-                        if (count == 3) { scratchPad[x, y] = true; }
+                        if (count == 3) 
+                        { 
+                            scratchPad[x, y] = true; 
+                            wasAlive[x, y] = true;
+                        }
                     }
                     else
                     {
@@ -113,6 +117,9 @@ namespace Game_Of_Life
             // A Brush for filling living cells interiors (color)
             Brush cellBrush = new SolidBrush(cellColor);
 
+            // A Brush for filling previously living cells interiors (color)
+            Brush wasAliveBrush = new SolidBrush(Color.LightGray);
+
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -130,6 +137,10 @@ namespace Game_Of_Life
                     if (universe[x, y] == true)
                     {
                         e.Graphics.FillRectangle(cellBrush, cellRect);
+                    }
+                    else if (wasAlive[x,y] == true)
+                    {
+                        e.Graphics.FillRectangle(wasAliveBrush, cellRect);
                     }
 
                     // Outline the cell with a pen
@@ -159,6 +170,7 @@ namespace Game_Of_Life
 
                 // Toggle the cell's state
                 universe[(int)x, (int)y] = !universe[(int)x, (int)y];
+                wasAlive[(int)x, (int)y] = true;
 
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
