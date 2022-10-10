@@ -84,6 +84,54 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SaveAs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Pause.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\StopOutline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Cut.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\NewDocument.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\HelpIndexFile.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorPalette.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorWheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Template.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ColorDialog.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
