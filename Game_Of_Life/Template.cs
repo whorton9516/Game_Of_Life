@@ -76,5 +76,25 @@ namespace Game_Of_Life
             if (templates.ContainsKey(name)) { return true; }
             return false;
         }
+
+        // Adds frame template to the json file
+        public static void AddFrameTemplate(Dictionary<string, bool[,]> templates, int cols, int rows)
+        {
+            bool[,] grid = new bool[cols, rows];
+            // Iterate through the universe in the y, top to bottom
+            for (int y = 0; y < grid.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < grid.GetLength(0); x++)
+                {
+                    if (x == 0 || y == 0 || x == cols - 1 || y == rows - 1)
+                    {
+                        grid[x, y] = true;
+                    }
+                }
+            }
+            if(templates.ContainsKey("frame")) { templates.Remove("frame"); }
+            templates.Add("frame", grid);
+        }
     }
 }

@@ -40,7 +40,7 @@ namespace Game_Of_Life
         // Status stip variables
         int generations = 0;
         int living = 0;
-        int dead = 20*20;
+        int dead = 50*50;
 
         public Form1()
         {
@@ -157,7 +157,7 @@ namespace Game_Of_Life
                     }
 
                     // Outline the cell with a pen
-                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    //e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
 
@@ -226,6 +226,34 @@ namespace Game_Of_Life
             return count;
         }
 
+        private void LoadTemplate()
+        {
+            NewGrid();
+            TemplateIOModal modal = new TemplateIOModal();
+            modal.Apply += new ApplyEventHandler(modalApply);
+            if (DialogResult.OK == modal.ShowDialog())
+            {
+                bool[,] grid = Template.GetTemplate(templates, modal.templateName);
+                // Iterate through the universe in the y, top to bottom
+                for (int y = 0; y < scratchPad.GetLength(1); y++)
+                {
+                    // Iterate through the universe in the x, left to right
+                    for (int x = 0; x < scratchPad.GetLength(0); x++)
+                    {
+                        try
+                        {
+                            universe[x, y] = scratchPad[x, y] = grid[x, y];
+                        }
+                        catch (IndexOutOfRangeException)
+                        {
+                            break;
+                        }
+                    }
+                }
+                graphicsPanel1.Invalidate();
+            }
+        }
+
         private void NewGrid()
         {
             timer.Stop();
@@ -242,6 +270,8 @@ namespace Game_Of_Life
             toolStripStatusLabelLiving.Text = "Living Cells = " + living.ToString();
             toolStripStatusLabelDead.Text = "Dead Cells = " + dead.ToString();
         }
+
+
 
         // UI Methods
         private void startToolStripButton_Click(object sender, EventArgs e) { timer.Start(); }
@@ -265,7 +295,6 @@ namespace Game_Of_Life
                     clipboard[x, y] = universe[x, y];
                 }
             }
-
             NewGrid();
         }
 
@@ -285,22 +314,19 @@ namespace Game_Of_Life
             {
                 // Iterate through the universe in the x, left to right
                 for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    universe[x, y] = clipboard[x, y];
-                }
+                { universe[x, y] = clipboard[x, y]; }
             }
             graphicsPanel1.Invalidate();
         }
 
-        private void loadToolStripButton_Click(object sender, EventArgs e)
-        {
-            timer.Stop();
-            Template.GetJsonFilePath();
-        }
-
+        private void loadToolStripButton_Click(object sender, EventArgs e) { LoadTemplate(); }
         private void Form1_FormClosing(object sender, FormClosingEventArgs e) { Template.SaveJson(templates); }
 
-        private void Form1_Load(object sender, EventArgs e) { templates = Template.LoadTemplatesToDictionary(templates); }
+        private void Form1_Load(object sender, EventArgs e) 
+        { 
+            templates = Template.LoadTemplatesToDictionary(templates);
+            Template.AddFrameTemplate(templates, 50, 50);
+        }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -329,23 +355,7 @@ namespace Game_Of_Life
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TemplateIOModal modal = new TemplateIOModal();
-            modal.Apply += new ApplyEventHandler(modalApply);
-            if (DialogResult.OK == modal.ShowDialog())
-            {
-                bool[,] ret = Template.GetTemplate(templates, modal.templateName);
-                // Iterate through the universe in the y, top to bottom
-                for (int y = 0; y < scratchPad.GetLength(1); y++)
-                {
-                    // Iterate through the universe in the x, left to right
-                    for (int x = 0; x < scratchPad.GetLength(0); x++)
-                    {
-                        universe[x, y] = ret[x, y];
-                        scratchPad[x, y] = ret[x, y];
-                    }
-                }
-                graphicsPanel1.Invalidate();
-            }
+            LoadTemplate();
         }
 
         private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
