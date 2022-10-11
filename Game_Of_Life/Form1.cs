@@ -224,60 +224,10 @@ namespace Game_Of_Life
             Array.Clear(wasAlive, 0, wasAlive.Length);
             graphicsPanel1.Invalidate();
         }
-        
-        private string GetJsonFilepath()
-        {
-            try
-            {
-                var directory = new DirectoryInfo(Directory.GetCurrentDirectory());
-                while (directory.Name != "Game_Of_Life")
-                {
-                    directory = directory.Parent;
-                }
 
-                directory = directory.GetDirectories("Resources")[0];
 
-                return directory.GetFiles("templates.json")[0].FullName;
-            }
-            catch (Exception e)
-            {
-                return String.Empty;
-            }
-        }
 
-        private void SaveTemplate(string name, bool[,] universe)
-        {
-            templates.Add(name, universe);
-        }
 
-        private void SaveJson()
-        {
-            string templateString = JsonConvert.SerializeObject(templates);
-            File.WriteAllText(GetJsonFilepath(), templateString);
-        }
-
-        private void LoadTemplatesToDictionary()
-        {
-            templates.Clear();
-            string templateString = File.ReadAllText(GetJsonFilepath());
-            if (templateString != null)
-            {
-                templates = JsonConvert.DeserializeObject<Dictionary<string, bool[,]>>(templateString);
-            }
-            else return;
-        }
-
-        private bool[,] GetTemplate(string name)
-        {
-            if (templates.TryGetValue(name, out var ret)) { return ret; }
-            else { return null; }
-                   
-        }
-
-        private void DeleteTemplate(string name)
-        {
-            templates.Remove(name);
-        }
         
 
 
