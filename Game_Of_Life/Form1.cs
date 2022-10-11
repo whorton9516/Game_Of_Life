@@ -31,8 +31,8 @@ namespace Game_Of_Life
         Dictionary<string, bool[,]> templates = new Dictionary<string, bool[,]>();
 
         // Drawing colors
-        Color gridColor = Color.Black;
-        Color cellColor = Color.Gray;
+        Color gridColor = ProjectColor.SetGridDefault();
+        Color cellColor = ProjectColor.SetPrimaryCellDefault();
 
         // The Timer class
         Timer timer = new Timer();
@@ -113,9 +113,9 @@ namespace Game_Of_Life
         {
             // Calculate the width and height of each cell in pixels
             // CELL WIDTH = WINDOW WIDTH / NUMBER OF CELLS IN X
-            float cellWidth = ((float)graphicsPanel1.ClientSize.Width / universe.GetLength(0)) - 0.3f;
+            float cellWidth = ((float)graphicsPanel1.ClientSize.Width / universe.GetLength(0)) - 0.05f;
             // CELL HEIGHT = WINDOW HEIGHT / NUMBER OF CELLS IN Y
-            float cellHeight = ((float)graphicsPanel1.ClientSize.Height / universe.GetLength(1)) - 0.3f;
+            float cellHeight = ((float)graphicsPanel1.ClientSize.Height / universe.GetLength(1)) - 0.05f;
 
             // A Pen for drawing the grid lines (color, width)
             Pen gridPen = new Pen(gridColor, 1);
@@ -165,8 +165,8 @@ namespace Game_Of_Life
             if (e.Button == MouseButtons.Left)
             {
                 // Calculate the width and height of each cell in pixels
-                float cellWidth = (graphicsPanel1.ClientSize.Width / universe.GetLength(0)) - 0.3f;
-                float cellHeight = (graphicsPanel1.ClientSize.Height / universe.GetLength(1)) + 0.5f;
+                float cellWidth = (float)graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+                float cellHeight = (float)graphicsPanel1.ClientSize.Height / universe.GetLength(1);
 
                 // Calculate the cell that was clicked in
                 // CELL X = MOUSE X / CELL WIDTH
@@ -328,6 +328,18 @@ namespace Game_Of_Life
                 }
                 graphicsPanel1.Invalidate();
             }
+        }
+
+        private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cellColor = ProjectColor.GetNewColor();
+            graphicsPanel1.Invalidate();
+        }
+
+        private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            gridColor = ProjectColor.GetNewColor();
+            graphicsPanel1.Invalidate();
         }
     }
 }
