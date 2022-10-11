@@ -30,10 +30,6 @@ namespace Game_Of_Life
         // The templates dictionary
         Dictionary<string, bool[,]> templates = new Dictionary<string, bool[,]>();
 
-        // Drawing colors
-        Color gridColor = ProjectColor.SetGridDefault();
-        Color cellColor = ProjectColor.SetPrimaryCellDefault();
-
         // The Timer class
         Timer timer = new Timer();
 
@@ -45,10 +41,11 @@ namespace Game_Of_Life
         public Form1()
         {
             InitializeComponent();
-            
+            Properties.Settings.Default.CellColor = ProjectColor.SetPrimaryCellDefault();
+            Properties.Settings.Default.GridColor = ProjectColor.SetGridDefault();
             toolStripStatusLabelDead.Text = "Dead Cells = " + dead.ToString();
             // Setup the timer
-            timer.Interval = 100; // milliseconds
+            timer.Interval = Properties.Settings.Default.TickRate;
             timer.Tick += Timer_Tick;
             timer.Enabled = false; // start timer running
         }
@@ -125,10 +122,10 @@ namespace Game_Of_Life
             float cellHeight = ((float)graphicsPanel1.ClientSize.Height / universe.GetLength(1)) - 0.05f;
 
             // A Pen for drawing the grid lines (color, width)
-            Pen gridPen = new Pen(gridColor, 1);
+            Pen gridPen = new Pen(Properties.Settings.Default.GridColor, 1);
 
             // A Brush for filling living cells interiors (color)
-            Brush cellBrush = new SolidBrush(cellColor);
+            Brush cellBrush = new SolidBrush(Properties.Settings.Default.CellColor);
 
             // A Brush for filling previously living cells interiors (color)
             Brush wasAliveBrush = new SolidBrush(Color.LightGray);
@@ -330,7 +327,11 @@ namespace Game_Of_Life
         }
 
         private void loadToolStripButton_Click(object sender, EventArgs e) { LoadTemplate(); }
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e) { Template.SaveJson(templates); }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) 
+        { 
+            Template.SaveJson(templates);
+            Properties.Settings.Default.Save();
+        }
 
         private void Form1_Load(object sender, EventArgs e) 
         { 
@@ -370,13 +371,13 @@ namespace Game_Of_Life
 
         private void cellColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            cellColor = ProjectColor.GetNewColor();
+            Properties.Settings.Default.CellColor = ProjectColor.GetNewColor();
             graphicsPanel1.Invalidate();
         }
 
         private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            gridColor = ProjectColor.GetNewColor();
+            Properties.Settings.Default.GridColor = ProjectColor.GetNewColor();
             graphicsPanel1.Invalidate();
         }
 

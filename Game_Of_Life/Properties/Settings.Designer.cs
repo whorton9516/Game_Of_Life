@@ -35,45 +35,27 @@ namespace Game_Of_Life.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Gray")]
-        public global::System.Drawing.Color DefaultCellColor {
+        public global::System.Drawing.Color CellColor {
             get {
-                return ((global::System.Drawing.Color)(this["DefaultCellColor"]));
+                return ((global::System.Drawing.Color)(this["CellColor"]));
+            }
+            set {
+                this["CellColor"] = value;
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Black")]
-        public global::System.Drawing.Color DefaultGridColor {
+        public global::System.Drawing.Color GridColor {
             get {
-                return ((global::System.Drawing.Color)(this["DefaultGridColor"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
-        public global::System.Drawing.Color UserCellColor {
-            get {
-                return ((global::System.Drawing.Color)(this["UserCellColor"]));
+                return ((global::System.Drawing.Color)(this["GridColor"]));
             }
             set {
-                this["UserCellColor"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Transparent")]
-        public global::System.Drawing.Color UserGridColor {
-            get {
-                return ((global::System.Drawing.Color)(this["UserGridColor"]));
-            }
-            set {
-                this["UserGridColor"] = value;
+                this["GridColor"] = value;
             }
         }
     }
