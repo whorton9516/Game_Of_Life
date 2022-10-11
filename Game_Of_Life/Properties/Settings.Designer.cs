@@ -22,5 +22,6 @@ namespace Game_Of_Life.Properties {
                 return defaultInstance;
             }
         }
+
     }
 }
