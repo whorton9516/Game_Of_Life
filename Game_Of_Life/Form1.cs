@@ -157,7 +157,7 @@ namespace Game_Of_Life
                     }
 
                     // Outline the cell with a pen
-                    //e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
+                    e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
                 }
             }
 
@@ -271,6 +271,16 @@ namespace Game_Of_Life
             toolStripStatusLabelDead.Text = "Dead Cells = " + dead.ToString();
         }
 
+        private void Overwrite()
+        {
+            TemplateIOModal modal = new TemplateIOModal();
+            modal.Apply += new ApplyEventHandler(modalApply);
+            if (DialogResult.OK == modal.ShowDialog())
+            {
+                Template.OverwriteTemplate(templates, modal.templateName, universe);
+            }
+        }
+
 
 
         // UI Methods
@@ -336,7 +346,7 @@ namespace Game_Of_Life
                 modal.Apply += new ApplyEventHandler(modalApply);
                 if (DialogResult.OK == modal.ShowDialog())
                 {
-                    if (!Template.CheckForTemplateName(templates, modal.templateName))
+                    if (!templates.ContainsKey(modal.templateName))
                     {
                         Template.SaveTemplate(templates, modal.templateName, universe);
                         break;
@@ -397,6 +407,16 @@ namespace Game_Of_Life
 
             PrintStatusBar();
             graphicsPanel1.Invalidate();
+        }
+
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            Overwrite();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Overwrite();
         }
     }
 }

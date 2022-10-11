@@ -37,6 +37,12 @@ namespace Game_Of_Life
             templates.Add(name, universe);
         }
 
+        public static void OverwriteTemplate(Dictionary<string, bool[,]> templates, string name, bool[,] universe)
+        {
+            if (templates.ContainsKey(name)) { templates.Remove(name); }
+            templates.Add(name, universe);
+        }
+
         // Saves the template dictionary to the Json file
         public static void SaveJson(Dictionary<string, bool[,]> templates)
         {
@@ -68,13 +74,6 @@ namespace Game_Of_Life
         public static void DeleteTemplate(Dictionary<string, bool[,]> templates, string name)
         {
             templates.Remove(name);
-        }
-
-        // Checks if there is an existing template with the same name
-        public static bool CheckForTemplateName(Dictionary<string, bool[,]> templates, string name)
-        {
-            if (templates.ContainsKey(name)) { return true; }
-            return false;
         }
 
         // Adds frame template to the json file
