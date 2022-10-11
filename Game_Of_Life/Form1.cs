@@ -225,13 +225,6 @@ namespace Game_Of_Life
             graphicsPanel1.Invalidate();
         }
 
-
-
-
-        
-
-
-
         // UI Methods
         private void startToolStripButton_Click(object sender, EventArgs e)
         {
@@ -292,17 +285,17 @@ namespace Game_Of_Life
         private void loadToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Stop();
-            GetJsonFilepath();
+            Template.GetJsonFilePath();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SaveJson();
+            Template.SaveJson(templates);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LoadTemplatesToDictionary();
+            Template.LoadTemplatesToDictionary(templates);
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -311,7 +304,7 @@ namespace Game_Of_Life
             modal.Apply += new ApplyEventHandler(modalApply);
             if(DialogResult.OK == modal.ShowDialog())
             {
-                SaveTemplate(modal.templateName, universe);
+                Template.SaveTemplate(templates, modal.templateName, universe);
             }
         }
 
@@ -326,7 +319,7 @@ namespace Game_Of_Life
             modal.Apply += new ApplyEventHandler(modalApply);
             if (DialogResult.OK == modal.ShowDialog())
             {
-                bool[,] ret = GetTemplate(modal.templateName);
+                bool[,] ret = Template.GetTemplate(templates, modal.templateName);
                 // Iterate through the universe in the y, top to bottom
                 for (int y = 0; y < scratchPad.GetLength(1); y++)
                 {
