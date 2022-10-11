@@ -16,16 +16,16 @@ namespace Game_Of_Life
     public partial class Form1 : Form
     {
         // The universe array
-        bool[,] universe = new bool[20, 20];
+        bool[,] universe = new bool[50, 50];
 
         // The scratchPad array
-        bool[,] scratchPad = new bool[20, 20];
+        bool[,] scratchPad = new bool[50, 50];
 
         // The wasAlive array
-        bool[,] wasAlive = new bool[20, 20];
+        bool[,] wasAlive = new bool[50, 50];
 
         // The clipboard array
-        bool[,] clipboard = new bool[20, 20];
+        bool[,] clipboard = new bool[50, 50];
 
         // The templates dictionary
         Dictionary<string, bool[,]> templates = new Dictionary<string, bool[,]>();
@@ -37,13 +37,16 @@ namespace Game_Of_Life
         // The Timer class
         Timer timer = new Timer();
 
-        // Generation count
+        // Status stip variables
         int generations = 0;
+        int living = 0;
+        int dead = 20*20;
 
         public Form1()
         {
             InitializeComponent();
             
+            toolStripStatusLabelDead.Text = "Dead Cells = " + dead.ToString();
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
@@ -53,8 +56,6 @@ namespace Game_Of_Life
         // Calculate the next generation of cells
         private void NextGeneration()
         {
-
-
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -62,7 +63,9 @@ namespace Game_Of_Life
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     int count = CountNeighborsToroidal(x, y);
-                    /*
+
+
+                    /* RULES OF GAME OF LIFE
                      * Any live cell with fewer than two live neighbours dies, as if by underpopulation.
                      * Any live cell with two or three live neighbours lives on to the next generation.
                      * Any live cell with more than three live neighbours dies, as if by overpopulation.
@@ -84,6 +87,8 @@ namespace Game_Of_Life
                 }
             }
 
+            living = 0;
+            dead = 0;
             // Iterate through the universe in the y, top to bottom
             for (int y = 0; y < universe.GetLength(1); y++)
             {
@@ -91,6 +96,8 @@ namespace Game_Of_Life
                 for (int x = 0; x < universe.GetLength(0); x++)
                 {
                     universe[x, y] = scratchPad[x, y];
+                    if (universe[x, y]) ++living;
+                    else ++dead;
                 }
             }
 
@@ -100,7 +107,7 @@ namespace Game_Of_Life
             generations++;
 
             // Update status strip generations
-            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            PrintStatusBar();
         }
 
         // The event called by the timer every Interval milliseconds.
@@ -178,6 +185,9 @@ namespace Game_Of_Life
                 universe[(int)x, (int)y] = !universe[(int)x, (int)y];
                 wasAlive[(int)x, (int)y] = true;
 
+                if (universe[(int)x, (int)y] == true) ++living;
+                else ++living;
+
                 // Tell Windows you need to repaint
                 graphicsPanel1.Invalidate();
             }
@@ -222,7 +232,15 @@ namespace Game_Of_Life
             Array.Clear(universe, 0, universe.Length);
             Array.Clear(scratchPad, 0, scratchPad.Length);
             Array.Clear(wasAlive, 0, wasAlive.Length);
+            generations = living = 0;
             graphicsPanel1.Invalidate();
+        }
+
+        private void PrintStatusBar()
+        {
+            toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLabelLiving.Text = "Living Cells = " + living.ToString();
+            toolStripStatusLabelDead.Text = "Dead Cells = " + dead.ToString();
         }
 
         // UI Methods
@@ -339,6 +357,35 @@ namespace Game_Of_Life
         private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             gridColor = ProjectColor.GetNewColor();
+            graphicsPanel1.Invalidate();
+        }
+
+        private void randomToolStripButton_Click(object sender, EventArgs e)
+        {
+            NewGrid();
+            Random rng = new Random();
+            living = dead = 0;
+
+            // Iterate through the universe in the y, top to bottom
+            for (int y = 0; y < universe.GetLength(1); y++)
+            {
+                // Iterate through the universe in the x, left to right
+                for (int x = 0; x < universe.GetLength(0); x++)
+                {
+                    if (rng.Next(3) == 0)
+                    {
+                        universe[x, y] = true;
+                        ++living;
+                    }
+                    else
+                    {
+                        universe[x, y] = false;
+                        ++dead;
+                    }
+                }
+            }
+
+            PrintStatusBar();
             graphicsPanel1.Invalidate();
         }
     }
