@@ -196,19 +196,19 @@ namespace Game_Of_Life
                     int yCheck = y + yOffset;
 
                     // if xOffset and yOffset are both equal to 0 then continue
-                    if (xOffset == 0 && yOffset == 0) { continue; }
+                    if (xOffset == 0 && yOffset == 0) continue;
 
                     // if xCheck is less than 0 then set to xLen - 1
-                    if (xCheck < 0) { xCheck = xLen - 1; }
+                    if (xCheck < 0) xCheck = xLen - 1;
 
                     // if yCheck is less than 0 then set to yLen - 1
-                    if (yCheck < 0) { yCheck = yLen - 1; }
+                    if (yCheck < 0) yCheck = yLen - 1;
 
                     // if xCheck is greater than or equal too xLen then set to 0
-                    if (xCheck >= xLen) { xCheck = 0; }
+                    if (xCheck >= xLen) xCheck = 0;
 
                     // if yCheck is greater than or equal too yLen then set to 0
-                    if (yCheck >= yLen) { yCheck = 0; }
+                    if (yCheck >= yLen) yCheck = 0;
 
                     if (universe[xCheck, yCheck] == true) count++;
                 }
@@ -226,15 +226,9 @@ namespace Game_Of_Life
         }
 
         // UI Methods
-        private void startToolStripButton_Click(object sender, EventArgs e)
-        {
-            timer.Start();
-        }
+        private void startToolStripButton_Click(object sender, EventArgs e) { timer.Start(); }
 
-        private void pauseToolStripButton_Click(object sender, EventArgs e)
-        {
-            timer.Stop();
-        }
+        private void pauseToolStripButton_Click(object sender, EventArgs e) { timer.Stop(); }
 
         private void stepToolStripButton_Click(object sender, EventArgs e)
         {
@@ -262,10 +256,8 @@ namespace Game_Of_Life
             for (int y = 0; y < universe.GetLength(1); y++)
             {
                 // Iterate through the universe in the x, left to right
-                for (int x = 0; x < universe.GetLength(0); x++)
-                {
-                    clipboard[x, y] = universe[x, y];
-                }
+                for (int x = 0; x < universe.GetLength(0); x++) 
+                { clipboard[x, y] = universe[x, y]; }
             }
         }
 
@@ -288,30 +280,34 @@ namespace Game_Of_Life
             Template.GetJsonFilePath();
         }
 
-        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            Template.SaveJson(templates);
-        }
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e) { Template.SaveJson(templates); }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Template.LoadTemplatesToDictionary(templates);
-        }
+        private void Form1_Load(object sender, EventArgs e) { templates = Template.LoadTemplatesToDictionary(templates); }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TemplateIOModal modal = new TemplateIOModal();
-            modal.Apply += new ApplyEventHandler(modalApply);
-            if(DialogResult.OK == modal.ShowDialog())
+            while (true)
             {
-                Template.SaveTemplate(templates, modal.templateName, universe);
+                TemplateIOModal modal = new TemplateIOModal();
+                modal.Apply += new ApplyEventHandler(modalApply);
+                if (DialogResult.OK == modal.ShowDialog())
+                {
+                    if (!Template.CheckForTemplateName(templates, modal.templateName))
+                    {
+                        Template.SaveTemplate(templates, modal.templateName, universe);
+                        break;
+                    }
+                    else
+                    {
+                        ErrorModal err = new ErrorModal();
+                        err.ShowDialog();
+                    }
+                }
+                else break;
             }
         }
 
-        private void modalApply(Object sender, ApplyEventArgs e)
-        {
-            string templateName = e.name;
-        }
+        private void modalApply(Object sender, ApplyEventArgs e) { string templateName = e.name; }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -45,15 +45,16 @@ namespace Game_Of_Life
         }
 
         // Loads the Json file of templates into the dictionary
-        public static void LoadTemplatesToDictionary(Dictionary<string, bool[,]> templates)
+        public static Dictionary<string, bool[,]> LoadTemplatesToDictionary(Dictionary<string, bool[,]> templates)
         {
             templates.Clear();
             string templateString = File.ReadAllText(GetJsonFilePath());
             if (templateString != null)
             {
                 templates = JsonConvert.DeserializeObject<Dictionary<string, bool[,]>>(templateString);
+                return templates;
             }
-            else return;
+            else return null;
         }
 
         // Fetches a template from the dictionary
@@ -67,6 +68,13 @@ namespace Game_Of_Life
         public static void DeleteTemplate(Dictionary<string, bool[,]> templates, string name)
         {
             templates.Remove(name);
+        }
+
+        // Checks if there is an existing template with the same name
+        public static bool CheckForTemplateName(Dictionary<string, bool[,]> templates, string name)
+        {
+            if (templates.ContainsKey(name)) { return true; }
+            return false;
         }
     }
 }

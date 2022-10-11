@@ -41,8 +41,4 @@ namespace Game_Of_Life
             this.name = templateName;
         }
     }
-
-    
-
-    
 }
