@@ -43,7 +43,7 @@ namespace Game_Of_Life
         public Form1()
         {
             InitializeComponent();
-
+            
             // Setup the timer
             timer.Interval = 100; // milliseconds
             timer.Tick += Timer_Tick;
